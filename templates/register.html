@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro - Projeta+</title>
+    
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='imagens/favicon.ico') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='imagens/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='imagens/favicon-16x16.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='imagens/favicon-32x32.png') }}">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-wrapper">
+            <!-- Seção de Boas-vindas -->
+            <div class="auth-welcome">
+                <h1>Transforme sua vida financeira!</h1>
+                <p>Junte-se a milhares de pessoas que já descobriram o poder de ter controle total sobre suas finanças.</p>
+                
+                <div class="auth-features">
+                    <div class="feature-item">
+                        <div class="feature-icon">💰</div>
+                        <div class="feature-text">
+                            <h3>Controle Total</h3>
+                            <p>Gerencie todas suas transações</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-item">
+                        <div class="feature-icon">📈</div>
+                        <div class="feature-text">
+                            <h3>Crescimento Garantido</h3>
+                            <p>Veja seu patrimônio crescer</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-item">
+                        <div class="feature-icon">🎯</div>
+                        <div class="feature-text">
+                            <h3>Objetivos Claros</h3>
+                            <p>Defina metas e acompanhe</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-item">
+                        <div class="feature-icon">📊</div>
+                        <div class="feature-text">
+                            <h3>Futuro Sustentável</h3>
+                            <p>Construa um futuro sólido</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card do Formulário -->
+            <div class="auth-card">
+                <div class="auth-header">
+                    <div class="auth-logo">
+                        <img src="{{ url_for('static', filename='imagens/favicon-32x32.png') }}" alt="Projeta+" class="auth-logo-img">
+                    </div>
+                    <h1>Criar Conta</h1>
+                    <p>Comece sua jornada rumo à liberdade financeira agora mesmo</p>
+                </div>
+                
+                <form action="{{ url_for('register') }}" method="POST" class="auth-form" id="registerForm">
+                    <div class="form-group" data-icon="👤">
+                        <label for="nome">Nome completo</label>
+                        <input type="text" id="nome" name="nome" required placeholder="Digite seu nome completo" autocomplete="name">
+                        <div class="error-message" id="nomeError">Nome deve ter pelo menos 2 caracteres</div>
+                    </div>
+                    
+                    <div class="form-group" data-icon="📧">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required placeholder="Digite seu melhor email" value="{{ email_prefill or '' }}" autocomplete="email">
+                        <div class="error-message" id="emailError">Por favor, digite um email válido</div>
+                    </div>
+                    
+                    <div class="form-group" data-icon="🔒">
+                        <label for="senha">Senha</label>
+                        <input type="password" id="senha" name="senha" required placeholder="Crie uma senha segura" minlength="6" autocomplete="new-password">
+                        <div class="password-strength" id="passwordStrength">
+                            <div class="password-strength-bar" id="strengthBar"></div>
+                        </div>
+                        <div class="error-message" id="senhaError">A senha deve ter pelo menos 6 caracteres</div>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary" id="submitBtn" disabled>
+                        ✨ Criar Minha Conta Gratuita
+                    </button>
+                </form>
+                
+                <div class="auth-divider">
+                    <span>ou</span>
+                </div>
+                
+                <div class="auth-footer">
+                    <p>Já tem uma conta? <a href="{{ url_for('login') }}">Faça login aqui</a></p>
+                    <p style="margin-top: 16px;">
+                        <a href="{{ url_for('home') }}" style="color: #6b7280; font-weight: 500;">
+                            ← Voltar para o início
+                        </a>
+                    </p>
+                </div>
+                
+                <div class="auth-benefits">
+                    <div class="auth-benefits-grid">
+                        <div class="benefit-item">100% gratuito</div>
+                        <div class="benefit-item">Dados protegidos</div>
+                        <div class="benefit-item">Sem anúncios</div>
+                        <div class="benefit-item">Suporte premium</div>
+                        <div class="benefit-item">Relatórios ilimitados</div>
+                        <div class="benefit-item">Acesso vitalício</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Aguardar carregamento do DOM
+        document.addEventListener('DOMContentLoaded', function() {
+            // Elementos do formulário
+            const form = document.getElementById('registerForm');
+            const nomeInput = document.getElementById('nome');
+            const emailInput = document.getElementById('email');
+            const senhaInput = document.getElementById('senha');
+            const submitBtn = document.getElementById('submitBtn');
+            const strengthIndicator = document.getElementById('passwordStrength');
+            const strengthBar = document.getElementById('strengthBar');
+            
+            // Elementos de erro
+            const nomeError = document.getElementById('nomeError');
+            const emailError = document.getElementById('emailError');
+            const senhaError = document.getElementById('senhaError');
+
+            // Função de validação de email
+            function isValidEmail(email) {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return emailRegex.test(email);
+            }
+
+            // Função de validação de nome
+            function isValidName(name) {
+                return name.trim().length >= 2;
+            }
+
+            // Função para calcular força da senha
+            function calculatePasswordStrength(password) {
+                let strength = 0;
+                if (password.length >= 6) strength++;
+                if (password.length >= 8) strength++;
+                if (/[A-Z]/.test(password)) strength++;
+                if (/[0-9]/.test(password)) strength++;
+                if (/[^A-Za-z0-9]/.test(password)) strength++;
+                return strength;
+            }
+
+            // Função para atualizar indicador de força da senha
+            function updatePasswordStrength() {
+                const senha = senhaInput.value;
+                
+                if (senha.length === 0) {
+                    strengthIndicator.classList.remove('visible');
+                    return;
+                }
+                
+                strengthIndicator.classList.add('visible');
+                const strength = calculatePasswordStrength(senha);
+                
+                strengthBar.className = 'password-strength-bar';
+                
+                if (strength < 3) {
+                    strengthBar.classList.add('weak');
+                } else if (strength < 5) {
+                    strengthBar.classList.add('medium');
+                } else {
+                    strengthBar.classList.add('strong');
+                }
+            }
+
+            // Função de validação do formulário
+            function validateForm() {
+                const nome = nomeInput.value.trim();
+                const email = emailInput.value.trim();
+                const senha = senhaInput.value;
+                
+                let isValid = true;
+
+                // Validar nome
+                if (nome === '') {
+                    nomeInput.classList.remove('error');
+                    nomeError.classList.remove('show');
+                } else if (!isValidName(nome)) {
+                    nomeInput.classList.add('error');
+                    nomeError.classList.add('show');
+                    isValid = false;
+                } else {
+                    nomeInput.classList.remove('error');
+                    nomeError.classList.remove('show');
+                }
+
+                // Validar email
+                if (email === '') {
+                    emailInput.classList.remove('error');
+                    emailError.classList.remove('show');
+                } else if (!isValidEmail(email)) {
+                    emailInput.classList.add('error');
+                    emailError.classList.add('show');
+                    isValid = false;
+                } else {
+                    emailInput.classList.remove('error');
+                    emailError.classList.remove('show');
+                }
+
+                // Validar senha
+                if (senha === '') {
+                    senhaInput.classList.remove('error');
+                    senhaError.classList.remove('show');
+                } else if (senha.length < 6) {
+                    senhaInput.classList.add('error');
+                    senhaError.classList.add('show');
+                    isValid = false;
+                } else {
+                    senhaInput.classList.remove('error');
+                    senhaError.classList.remove('show');
+                }
+
+                // Habilitar/desabilitar botão
+                const formComplete = nome !== '' && email !== '' && senha !== '' && isValid;
+                submitBtn.disabled = !formComplete;
+                
+                return isValid && formComplete;
+            }
+
+            // Event listeners para validação em tempo real
+            nomeInput.addEventListener('input', validateForm);
+            nomeInput.addEventListener('blur', validateForm);
+            emailInput.addEventListener('input', validateForm);
+            emailInput.addEventListener('blur', validateForm);
+            senhaInput.addEventListener('input', function() {
+                updatePasswordStrength();
+                validateForm();
+            });
+            senhaInput.addEventListener('blur', validateForm);
+
+            // Efeitos visuais nos inputs
+            [nomeInput, emailInput, senhaInput].forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.parentElement.style.transform = 'scale(1.02)';
+                });
+                
+                input.addEventListener('blur', function() {
+                    this.parentElement.style.transform = 'scale(1)';
+                });
+            });
+
+            // Submissão do formulário
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                if (!validateForm()) {
+                    return;
+                }
+
+                // Mostrar loading
+                submitBtn.classList.add('loading');
+                submitBtn.innerHTML = '<span class="spinner"></span>Criando sua conta...';
+                submitBtn.disabled = true;
+
+                // Simular delay e submeter
+                setTimeout(() => {
+                    form.submit();
+                }, 500);
+            });
+
+            // Validação inicial
+            validateForm();
+
+            // Auto-focus no primeiro campo
+            if (!emailInput.value) {
+                nomeInput.focus();
+            } else {
+                nomeInput.focus();
+            }
+        });
+    </script>
+</body>
+</html>

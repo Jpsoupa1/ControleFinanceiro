@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Projeta+</title>
+    
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='imagens/favicon.ico') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='imagens/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='imagens/favicon-16x16.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='imagens/favicon-32x32.png') }}">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Header -->
+        <header class="dashboard-header">
+            <div class="header-content">
+                <div class="logo">
+                    <img src="{{ url_for('static', filename='imagens/Projeta+_removebg_preview.png') }}" alt="Projeta+" class="logo-img">
+                </div>
+                <div class="user-menu">
+                    <span class="user-greeting">Olá, {{ session.user_name }}!</span>
+                    
+                    <!-- Menu Hambúrguer -->
+                    <div class="menu-toggle" id="menu-toggle" onclick="toggleUserMenu()">
+                        <div class="menu-line"></div>
+                        <div class="menu-line"></div>
+                        <div class="menu-line"></div>
+                    </div>
+
+                    <!-- Dropdown Menu -->
+                    <div class="user-dropdown" id="user-dropdown">
+                        <div class="dropdown-header">
+                            <div class="user-avatar">
+                                {{ session.user_name[0].upper() }}
+                            </div>
+                            <div class="user-name">{{ session.user_name }}</div>
+                            <div class="user-email">{{ session.user_email or 'usuario@email.com' }}</div>
+                        </div>
+                        
+                        <div class="dropdown-menu">
+                            <button class="dropdown-item" onclick="abrirPerfil()">
+                                <span class="dropdown-icon">👤</span>
+                                <span>Meu Perfil</span>
+                            </button>
+                            
+                            <button class="dropdown-item" onclick="abrirConfiguracoes()">
+                                <span class="dropdown-icon">⚙️</span>
+                                <span>Configurações</span>
+                            </button>
+                            
+                            <button class="dropdown-item" onclick="abrirAjuda()">
+                                <span class="dropdown-icon">❓</span>
+                                <span>Ajuda & Suporte</span>
+                            </button>
+                            
+                            <div class="dropdown-divider"></div>
+                            
+                            <button class="dropdown-item" onclick="abrirSobre()">
+                                <span class="dropdown-icon">ℹ️</span>
+                                <span>Sobre o App</span>
+                            </button>
+                            <button class="dropdown-item" onclick="window.location.href='{{ url_for('extrato') }}'">
+                                <span class="dropdown-icon">📄</span>
+                                <span>Extrato</span>
+                              </button>
+                              
+                            <div class="dropdown-divider"></div>
+                            
+                            <a href="{{ url_for('logout') }}" class="dropdown-item danger">
+                                
+                                <span class="dropdown-icon">🚪</span>
+                                <span>Sair da Conta</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="dashboard-main">
+            <!-- Summary Cards -->
+            <section class="summary-section">
+                <h2>📊 Resumo Financeiro</h2>
+                <div class="summary-grid">
+                    <div class="summary-card expense">
+                        <div class="card-icon">💸</div>
+                        <div class="card-content">
+                            <h3>Total Investido</h3>
+                            <p class="amount" id="total-gasto">R$ {{ "%.2f"|format(total_gasto|float) }}</p>
+                        </div>
+                    </div>
+                    <div class="summary-card purchases">
+                        <div class="card-icon">🛒</div>
+                        <div class="card-content">
+                            <h3>Transações Este Mês</h3>
+                            <p class="count" id="compras-mes">{{ compras_mes }}</p>
+                        </div>
+                    </div>
+                    <div class="summary-card categories">
+                        <div class="card-icon">📈</div>
+                        <div class="card-content">
+                            <h3>Categorias Ativas</h3>
+                            <p class="count" id="total-modalidades">{{ total_modalidades }}</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quick Actions -->
+            <section class="actions-section">
+                <div class="section-header">
+                    <h2>⚡ Ações Rápidas</h2>
+                </div>
+                <div class="actions-grid">
+                    <button class="action-btn interactive-element" type="button" onclick="abrirModal('add-purchase-modal')">
+                        <span class="action-icon">💰</span>
+                        <span>Nova Transação</span>
+                    </button>
+                    <button class="action-btn interactive-element" type="button" onclick="abrirModal('add-category-modal')">
+                        <span class="action-icon">🏷️</span>
+                        <span>Nova Categoria</span>
+                    </button>
+                    <button class="action-btn interactive-element" type="button" onclick="window.location.href='{{ url_for('relatorios') }}'">
+                        <span class="action-icon">📊</span>
+                        <span>Relatórios</span>
+                      </button>                      
+                      <form method="POST" action="{{ url_for('reset_mes') }}" style="display: contents;">
+                        <button type="submit" class="action-btn interactive-element">
+                          <div class="action-icon" style="background-color: #d1fae5;">🧹</div>
+                          <span class="action-text" style="color: #10b981;">Iniciar Novo Mês</span>
+                        </button>
+                      </form>
+                      
+                </div>
+            </section>
+
+            <!-- Modern Categories Section -->
+            <section class="categories-section">
+                <div class="section-header">
+                    <h2>🎯 Suas Categorias</h2>
+                </div>
+                <div class="categories-container">
+                    <div class="categories-grid" id="categories-grid">
+                        {% if categorias %}
+                            {% for categoria in categorias %}
+                            <div class="category-card" id="categoria-{{ categoria.id_categoria }}">
+                                <div class="category-info">
+                                    <div class="category-icon">🏷️</div>
+                                    <div class="category-name">{{ categoria.nome }}</div>
+                                </div>
+                                <div class="category-actions">
+                                    <button class="category-btn btn-edit" type="button" onclick="editarCategoria({{ categoria.id_categoria }}, '{{ categoria.nome }}')" title="Editar categoria">
+                                        ✏️
+                                    </button>
+                                    <button class="category-btn btn-delete" type="button" onclick="confirmarExclusaoCategoria({{ categoria.id_categoria }}, '{{ categoria.nome }}')" title="Excluir categoria">
+                                        🗑️
+                                    </button>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="empty-state">
+                                <span class="empty-icon">🏷️</span>
+                                <p>Nenhuma categoria criada ainda</p>
+                                <button class="btn-secondary interactive-element" type="button" onclick="abrirModal('add-category-modal')">
+                                    ✨ Criar primeira categoria
+                                </button>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </section>
+
+            <!-- Recent Purchases -->
+            <section class="purchases-section">
+                <div class="section-header">
+                    <h2>💳 Transações Recentes</h2>
+                </div>
+                <div class="purchases-container">
+                    <div class="purchases-table-container">
+                        <table class="purchases-table">
+                            <thead>
+                                <tr>
+                                    <th>📅 Data/Hora</th>
+                                    <th>📝 Descrição</th>
+                                    <th>🏷️ Categoria</th>
+                                    <th>💵 Valor</th>
+                                    <th>⚙️ Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="purchases-tbody">
+                                {% if compras %}
+                                    {% for compra in compras %}
+                                    <tr id="compra-{{ compra.id }}">
+                                        <td>{{ compra.purchase_time.strftime('%d/%m/%Y %H:%M') if compra.purchase_time else '-' }}</td>
+                                        <td>{{ compra.descricao or '-' }}</td>
+                                        <td>{{ compra.categoria_nome or 'N/A' }}</td>
+                                        <td>R$ {{ "%.2f"|format(compra.amount|float) }}</td>
+                                        <td>
+                                            <button class="category-btn btn-delete" type="button" onclick="confirmarExclusaoTransacao({{ compra.id }})" title="Excluir transação">
+                                                🗑️
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                {% else %}
+                                    <tr class="empty-state">
+                                        <td colspan="5">
+                                            <div class="empty-message">
+                                                <span class="empty-icon">💼</span>
+                                                <p>Nenhuma transação registrada ainda</p>
+                                                <button class="btn-secondary interactive-element" type="button" onclick="abrirModal('add-purchase-modal')">
+                                                    🚀 Registrar primeira transação
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Modals -->
+    <!-- Add Purchase Modal -->
+    <div id="add-purchase-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>💰 Registrar Nova Transação</h3>
+                <button class="modal-close" type="button" onclick="fecharModal('add-purchase-modal')">&times;</button>
+            </div>
+            <form class="modal-form" id="purchase-form" onsubmit="adicionarTransacao(event)">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="purchase-value">💵 Valor (R$)</label>
+                        <input type="number" id="purchase-value" step="0.01" min="0.01" required placeholder="0,00">
+                    </div>
+                    <div class="form-group">
+                        <label for="purchase-category">🏷️ Categoria</label>
+                        <select id="purchase-category" required>
+                            <option value="">Selecione uma categoria</option>
+                            {% for categoria in categorias %}
+                            <option value="{{ categoria.id_categoria }}">{{ categoria.nome }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="purchase-description">📝 Descrição</label>
+                        <input type="text" id="purchase-description" placeholder="Descrição da transação" maxlength="255">
+                    </div>
+                    <div class="form-group">
+                        <label for="purchase-date">📅 Data e Hora</label>
+                        <input type="datetime-local" id="purchase-date" required>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-secondary" onclick="fecharModal('add-purchase-modal')">❌ Cancelar</button>
+                    <button type="submit" class="btn-primary">✅ Registrar Transação</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Add Category Modal -->
+    <div id="add-category-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>🏷️ Nova Categoria</h3>
+                <button class="modal-close" type="button" onclick="fecharModal('add-category-modal')">&times;</button>
+            </div>
+            <form class="modal-form" id="category-form" onsubmit="adicionarCategoria(event)">
+                <div class="form-group">
+                    <label for="category-name">📛 Nome da Categoria</label>
+                    <input type="text" id="category-name" required placeholder="Ex: Investimentos, Alimentação, Transporte" maxlength="100">
+                </div>
+                <div class="form-group">
+                    <label for="category-icon">🎨 Ícone da Categoria</label>
+                    <select id="category-icon">
+                        <option value="🏷️">🏷️ Padrão</option>
+                        <option value="💰">💰 Dinheiro</option>
+                        <option value="🍔">🍔 Alimentação</option>
+                        <option value="🚗">🚗 Transporte</option>
+                        <option value="🏠">🏠 Casa</option>
+                        <option value="💊">💊 Saúde</option>
+                        <option value="🎓">🎓 Educação</option>
+                        <option value="🎮">🎮 Entretenimento</option>
+                        <option value="👕">👕 Roupas</option>
+                        <option value="📱">📱 Tecnologia</option>
+                    </select>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-secondary" onclick="fecharModal('add-category-modal')">❌ Cancelar</button>
+                    <button type="submit" class="btn-primary">✨ Criar Categoria</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="delete-confirmation-modal" class="modal">
+        <div class="modal-content">
+            <div class="delete-modal">
+                <div class="delete-icon">⚠️</div>
+                <h3 class="delete-title">Confirmar Exclusão</h3>
+                <div class="delete-message" id="delete-message">
+                    <!-- Mensagem será inserida dinamicamente -->
+                </div>
+                <div class="delete-actions">
+                    <button type="button" class="btn-cancel" onclick="fecharModal('delete-confirmation-modal')">
+                        ❌ Cancelar
+                    </button>
+                    <button type="button" class="btn-confirm-delete" id="confirm-delete-btn">
+                        🗑️ Confirmar Exclusão
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,125 @@
+:root {
+    --primary: #10b981;
+    --primary-light: #34d399;
+    --primary-dark: #059669;
+  
+    --bg-primary: #ffffff;
+    --bg-secondary: #f0fdf4;
+    --bg-tertiary: #f9fafb;
+  
+    --text-primary: #1f2937;
+    --text-secondary: #6b7280;
+    --text-green: #10b981;
+  
+    --radius: 12px;
+    --radius-sm: 8px;
+  
+    --shadow: 0 2px 8px rgba(0,0,0,0.06);
+    --shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
+    --shadow-green: 0 4px 12px rgba(16,185,129,0.2);
+  }
+  
+  body.dashboard {
+    background: var(--bg-secondary);
+    font-family: "Inter", sans-serif;
+    color: var(--text-primary);
+    margin: 0;
+    padding: 0;
+  }
+  
+  h2 {
+    text-align: center;
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--text-green);
+    margin: 40px 0 24px;
+  }
+  
+  .extrato-container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 24px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .extrato-mes-accordion {
+    background: var(--bg-primary);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-lg);
+    overflow: hidden;
+  }
+  
+  .extrato-summary {
+    cursor: pointer;
+    padding: 16px 24px;
+    font-size: 18px;
+    font-weight: 700;
+    background: var(--primary-light);
+    color: white;
+    transition: background 0.3s ease;
+  }
+  
+  .extrato-summary:hover {
+    background: var(--primary-dark);
+  }
+  
+  .extrato-mes-list {
+    padding: 16px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .extrato-card {
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow);
+    padding: 16px 20px;
+    transition: transform 0.2s ease;
+    border-left: 4px solid var(--primary);
+  }
+  
+  .extrato-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-green);
+  }
+  
+  .extrato-info p {
+    font-size: 15px;
+    color: var(--text-secondary);
+    margin: 4px 0;
+  }
+  
+  .extrato-info p strong {
+    color: var(--text-primary);
+  }
+  
+  .empty-message {
+    text-align: center;
+    font-size: 16px;
+    color: var(--text-secondary);
+    margin-top: 40px;
+  }
+
+
+  .btn-voltar {
+    display: inline-block;
+    margin-top: 12px;
+    margin-left: 24px;
+    padding: 10px 18px;
+    background: linear-gradient(to right, #10b981, #34d399);
+    color: white;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+    transition: background 0.3s ease, transform 0.2s ease;
+  }
+  
+  .btn-voltar:hover {
+    background: linear-gradient(to right, #059669, #10b981);
+    transform: translateY(-1px);
+  }
+  

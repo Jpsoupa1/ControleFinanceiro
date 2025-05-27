@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Extrato - Projeta+</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/extrato.css') }}">
+</head>
+<body class="dashboard">
+
+  <!-- Header -->
+  <header class="dashboard-header">
+    <div class="header-content">
+      <div class="logo" style="display: flex; align-items: center; gap: 12px;">
+        <img src="{{ url_for('static', filename='imagens/android-chrome-512x512.png') }}" alt="Projeta+ logo pequena" style="height: 40px; width: auto;">
+        <h1 style="color: var(--primary); font-weight: 700; margin: 0;">Projeta+</h1>
+      </div>
+      <div class="user-menu">
+        <a href="{{ url_for('dashboard') }}" class="btn-primary" style="font-weight: 600; font-size: 14px; padding: 10px 20px; border-radius: 12px;">
+          ← Voltar ao Dashboard
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="dashboard-main" style="padding: 32px 24px; max-width: 1400px; margin: 0 auto;">
+    <section class="summary-section" style="background: var(--bg-primary); padding: 32px; border-radius: 24px; box-shadow: var(--shadow-lg);">
+      <h2 style="font-size: 24px; font-weight: 800; color: var(--primary); margin-bottom: 24px; display: flex; align-items: center; gap: 8px;">
+        <span>📄</span> Extrato Mensal
+      </h2>
+
+      {% if registros %}
+      {% set mes_atual = None %}
+      <div class="extrato-container">
+        {% for item in registros %}
+          {% if item.mes_ref != mes_atual %}
+            {% if mes_atual is not none %}
+              </div></details>
+            {% endif %}
+            <details class="extrato-mes-accordion" open style="border-radius: 16px; margin-bottom: 20px; box-shadow: var(--shadow); background: var(--bg-secondary);">
+              <summary class="extrato-summary" style="padding: 16px 24px; font-weight: 700; font-size: 18px; cursor: pointer; color: var(--primary); user-select: none;">
+                📅 {{ item.mes_ref }}
+              </summary>
+              <div class="extrato-mes-list" style="padding: 0 24px 16px 24px;">
+            {% set mes_atual = item.mes_ref %}
+          {% endif %}
+          <div class="extrato-card" style="background: var(--bg-primary); border-radius: 12px; margin: 12px 0; padding: 16px 20px; box-shadow: var(--shadow);">
+            <div class="extrato-info" style="color: var(--text-primary); font-size: 15px;">
+              <p><strong>Categoria:</strong> {{ item.categoria_nome }}</p>
+              <p><strong>Descrição:</strong> {{ item.descricao or '-' }}</p>
+              <p><strong>Valor:</strong> R$ {{ '%.2f'|format(item.amount|float) }}</p>
+              <p><strong>Data:</strong> {{ item.purchase_time }}</p>
+            </div>
+          </div>
+          {% if loop.last %}
+            </div></details>
+          {% endif %}
+        {% endfor %}
+      </div>
+      {% else %}
+        <p class="empty-message" style="color: var(--text-secondary); font-size: 16px; text-align: center; margin-top: 48px;">
+          Nenhum extrato encontrado ainda.
+        </p>
+      {% endif %}
+    </section>
+  </main>
+  
+</body>
+</html>

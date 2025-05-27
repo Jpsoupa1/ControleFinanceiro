@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Projeta+ - Controle Financeiro Inteligente</title>
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='imagens/favicon.ico') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='imagens/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='android-chrome-192x192.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='imagens/favicon-32x32.png') }}">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+        rel="stylesheet"
+    />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}" />
+</head>
+<body>
+    <!-- Header/Navbar -->
+    <header class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <img
+                    src="{{ url_for('static', filename='imagens/Projeta+_removebg_preview.png') }}"
+                    alt="Projeta+"
+                    class="logo-img"
+                />
+            </div>
+
+            <nav class="nav-menu" role="tablist">
+                <a href="#recursos" class="nav-link active" data-tab="recursos" role="tab" aria-selected="true" tabindex="0">Recursos</a>
+                <a href="#sobre" class="nav-link" data-tab="sobre" role="tab" aria-selected="false" tabindex="-1">Sobre nós</a>
+                <a href="#contato" class="nav-link" data-tab="contato" role="tab" aria-selected="false" tabindex="-1">Contato</a>
+                <a href="#ajuda" class="nav-link" data-tab="ajuda" role="tab" aria-selected="false" tabindex="-1">Ajuda</a>
+            </nav>
+
+            <div class="nav-actions">
+                <a href="{{ url_for('login') }}" class="btn-login">Acessar minha conta</a>
+                <a href="{{ url_for('register') }}" class="btn-register">Criar conta grátis</a>
+            </div>
+
+            <!-- Mobile Menu Toggle -->
+            <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1 class="hero-title">
+                        Controle financeiro completo e sem complicação
+                    </h1>
+                    <p class="hero-subtitle">
+                        Gerencie suas finanças, organize categorias, acompanhe gastos e tome decisões inteligentes.
+                        Tudo em uma plataforma simples e poderosa.
+                    </p>
+
+                    <!-- Signup Form -->
+                    <div class="signup-card">
+                        <h3>Comece agora mesmo!</h3>
+                        <p class="signup-subtitle">Preencha seu e-mail</p>
+
+                        <form class="signup-form" action="{{ url_for('register') }}" method="GET">
+                            <div class="form-group">
+                                <input
+                                    type="email"
+                                    name="email"
+                                    placeholder="seu@email.com"
+                                    required
+                                    class="email-input"
+                                />
+                            </div>
+                            <button type="submit" class="btn-signup">
+                                ✨ Criar conta grátis
+                            </button>
+                        </form>
+
+                        <p class="privacy-text">
+                            Ao clicar você aceita receber nossas comunicações, conforme
+                            <a href="#privacidade">Política de Privacidade</a>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="hero-visual">
+                    <!-- Hero Image -->
+                    <div class="hero-image">
+                        <div class="dashboard-preview">
+                            <img
+                                src="{{ url_for('static', filename='imagens/Projeta+_removebg_preview.png') }}"
+                                alt="Projeta+ Dashboard"
+                                class="hero-logo"
+                            />
+                        </div>
+
+                        <!-- Floating Elements -->
+                        <div class="floating-element element-1">
+                            <div class="icon-card">
+                                <span class="icon">📊</span>
+                            </div>
+                        </div>
+
+                        <div class="floating-element element-2">
+                            <div class="icon-card">
+                                <span class="icon">💰</span>
+                            </div>
+                        </div>
+
+                        <div class="floating-element element-3">
+                            <div class="icon-card">
+                                <span class="icon">🔔</span>
+                            </div>
+                        </div>
+
+                        <div class="floating-element element-4">
+                            <div class="notification-card">
+                                <span class="notification-icon">💸</span>
+                                <span class="notification-text">Transação registrada</span>
+                                <span class="notification-check">✅</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Background Elements -->
+        <div class="hero-bg-elements">
+            <div class="bg-circle circle-1"></div>
+            <div class="bg-circle circle-2"></div>
+            <div class="bg-circle circle-3"></div>
+        </div>
+    </section>
+
+    <!-- Features Section (Recursos) -->
+    <section class="features tab-content" id="recursos" role="tabpanel" tabindex="0" >
+        <div class="container">
+            <div class="section-header">
+                <h2>Por que escolher o Projeta+?</h2>
+                <p>Descubra como nossa plataforma pode transformar sua vida financeira</p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">💳</div>
+                    <h3>Controle Total</h3>
+                    <p>Registre e categorize todas suas transações de forma simples e organizada.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Relatórios Inteligentes</h3>
+                    <p>Visualize seus gastos com gráficos e relatórios detalhados em tempo real.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Metas Financeiras</h3>
+                    <p>Defina objetivos e acompanhe seu progresso rumo à independência financeira.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3>100% Seguro</h3>
+                    <p>Seus dados estão protegidos com criptografia de nível bancário.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📱</div>
+                    <h3>Acesso Multiplataforma</h3>
+                    <p>Use em qualquer dispositivo - computador, tablet ou smartphone.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Rápido e Fácil</h3>
+                    <p>Interface intuitiva que você aprende a usar em poucos minutos.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sobre Section -->
+    <section class="tab-content" id="sobre" role="tabpanel" tabindex="0" hidden>
+      <div class="container" style="max-width:900px; margin: 0 auto 48px; padding: 24px; background: #e6f4ea; border-radius: 16px; box-shadow: 0 4px 12px rgba(5, 150, 105, 0.1); display: flex; align-items: center; gap: 24px;">
+        <div style="flex-shrink: 0;">
+          <svg xmlns="http://www.w3.org/2000/svg" style="width: 64px; height: 64px; fill: var(--primary);" viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+        </div>
+        <div>
+          <h2 style="font-weight: 900; font-size: 28px; margin-bottom: 16px; color: var(--primary);">Sobre o Projeta+</h2>
+          <p style="font-size: 18px; line-height: 1.7; color: var(--text-primary); text-align: justify;">
+            Somos uma equipe dedicada a ajudar você a transformar sua vida financeira com uma ferramenta simples, segura e eficiente. Desde o planejamento até a execução, estamos ao seu lado.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contato Section -->
+    <section class="tab-content" id="contato" role="tabpanel" tabindex="0" hidden>
+      <div class="container" style="max-width: 480px; margin: 0 auto 48px; padding: 24px; background: #e6f4ea; border-radius: 16px; box-shadow: 0 4px 12px rgba(5, 150, 105, 0.1);">
+        <h2 style="font-weight: 900; font-size: 28px; margin-bottom: 24px; color: var(--primary); text-align: center;">Fale Conosco</h2>
+        <form id="contatoForm" style="display: flex; flex-direction: column; gap: 20px;">
+          <label style="display: flex; flex-direction: column; font-weight: 600; color: var(--text-primary); font-size: 16px;">
+            Nome
+            <input type="text" name="nome" placeholder="Seu nome" required
+              style="padding: 14px 16px; margin-top: 8px; border: 2px solid var(--primary-lighter); border-radius: 12px; font-size: 16px; transition: border-color 0.3s ease;"
+              onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='var(--primary-lighter)'" />
+          </label>
+          <label style="display: flex; flex-direction: column; font-weight: 600; color: var(--text-primary); font-size: 16px;">
+            Email
+            <input type="email" name="email" placeholder="Seu email" required
+              style="padding: 14px 16px; margin-top: 8px; border: 2px solid var(--primary-lighter); border-radius: 12px; font-size: 16px; transition: border-color 0.3s ease;"
+              onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='var(--primary-lighter)'" />
+          </label>
+          <label style="display: flex; flex-direction: column; font-weight: 600; color: var(--text-primary); font-size: 16px;">
+            Mensagem
+            <textarea name="mensagem" rows="5" placeholder="Sua mensagem" required
+              style="padding: 14px 16px; margin-top: 8px; border: 2px solid var(--primary-lighter); border-radius: 12px; font-size: 16px; resize: vertical; transition: border-color 0.3s ease;"
+              onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='var(--primary-lighter)'" ></textarea>
+          </label>
+          <button type="submit"
+            style="background: var(--primary); color: white; font-weight: 700; font-size: 18px; padding: 16px; border-radius: 12px; border: none; cursor: pointer; transition: background-color 0.3s ease; box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);">
+            Enviar Mensagem
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <!-- Ajuda Section -->
+    <section class="tab-content" id="ajuda" role="tabpanel" tabindex="0" hidden>
+        <div class="container" style="max-width:900px; padding:0 12px 48px 12px; margin: 0 auto 48px;">
+            <h2 style="font-weight:800; margin-bottom:16px; color: var(--primary);">Central de Ajuda</h2>
+            <p style="color: var(--text-primary); font-size:16px; line-height:1.6;">
+                Encontre respostas para dúvidas comuns, tutoriais, e suporte dedicado para garantir que você aproveite ao máximo o Projeta+.
+            </p>
+            <ul style="margin-top:12px; list-style: disc inside; padding-left: 20px;">
+                <li>Como cadastrar transações</li>
+                <li>Configuração de metas</li>
+                <li>Exportação de relatórios</li>
+                <li>Suporte e contato direto</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Pronto para transformar suas finanças?</h2>
+                <p>Junte-se a milhares de pessoas que já organizaram sua vida financeira</p>
+                <div class="cta-actions">
+                    <a href="{{ url_for('register') }}" class="btn-cta-primary">
+                        🚀 Começar agora grátis
+                    </a>
+                    <a href="{{ url_for('login') }}" class="btn-cta-secondary">
+                        Já tenho conta
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <img
+                        src="{{ url_for('static', filename='imagens/Projeta+_removebg_preview.png') }}"
+                        alt="Projeta+"
+                        class="footer-logo"
+                    />
+                    <p>Sua jornada para a liberdade financeira começa aqui.</p>
+                </div>
+
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>Produto</h4>
+                        <a href="#recursos">Recursos</a>
+                    </div>
+
+                    <div class="footer-column">
+                        <h4>Suporte</h4>
+                        <a href="#ajuda">Central de Ajuda</a>
+                        <a href="#contato">Contato</a>
+                    </div>
+
+                    <div class="footer-column">
+                        <h4>Legal</h4>
+                        <a href="#privacidade">Privacidade</a>
+                        <a href="#termos">Termos de Uso</a>
+                        <a href="#cookies">Cookies</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2024 Projeta+. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Tabs logic
+        const tabs = document.querySelectorAll('.nav-link');
+        const contents = document.querySelectorAll('.tab-content');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', e => {
+                e.preventDefault();
+
+                tabs.forEach(t => {
+                    t.classList.remove('active');
+                    t.setAttribute('aria-selected', 'false');
+                    t.setAttribute('tabindex', '-1');
+                });
+
+                contents.forEach(c => {
+                    c.hidden = true;
+                });
+
+                tab.classList.add('active');
+                tab.setAttribute('aria-selected', 'true');
+                tab.setAttribute('tabindex', '0');
+
+                const tabId = tab.getAttribute('data-tab');
+                const content = document.getElementById(tabId);
+                content.hidden = false;
+                content.focus();
+            });
+        });
+
+        // Ativa o primeiro tab na carga da página
+        document.addEventListener('DOMContentLoaded', () => {
+            tabs[0].click();
+        });
+
+        // Mobile menu toggle placeholder function
+        function toggleMobileMenu() {
+            const menu = document.querySelector('.nav-menu');
+            menu.classList.toggle('active');
+        }
+
+        // Simple contact form submission simulation
+        document.getElementById('contatoForm').addEventListener('submit', e => {
+            e.preventDefault();
+            alert('Mensagem enviada! Obrigado pelo contato.');
+            e.target.reset();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Projeta+</title>
+    
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='imagens/favicon.ico') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='imagens/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='imagens/favicon-16x16.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='imagens/favicon-32x32.png') }}">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-wrapper">
+            <!-- Seção de Boas-vindas -->
+            <div class="auth-welcome">
+                <h1>Bem-vindo de volta!</h1>
+                <p>Acesse sua conta e continue sua jornada rumo à liberdade financeira com nossa plataforma inteligente.</p>
+                
+                <div class="auth-features">
+                    <div class="feature-item">
+                        <div class="feature-icon">📊</div>
+                        <div class="feature-text">
+                            <h3>Relatórios Inteligentes</h3>
+                            <p>Visualize seus gastos em tempo real</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-item">
+                        <div class="feature-icon">🎯</div>
+                        <div class="feature-text">
+                            <h3>Metas Financeiras</h3>
+                            <p>Defina e acompanhe seus objetivos</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-item">
+                        <div class="feature-icon">🔒</div>
+                        <div class="feature-text">
+                            <h3>100% Seguro</h3>
+                            <p>Seus dados protegidos com criptografia</p>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-item">
+                        <div class="feature-icon">📱</div>
+                        <div class="feature-text">
+                            <h3>Acesso Total</h3>
+                            <p>Use em qualquer dispositivo</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card do Formulário -->
+            <div class="auth-card">
+                <div class="auth-header">
+                    <div class="auth-logo">
+                        <img src="{{ url_for('static', filename='imagens/favicon-32x32.png') }}" alt="Projeta+" class="auth-logo-img">
+                    </div>
+                    <h1>Fazer Login</h1>
+                    <p>Entre na sua conta para continuar organizando suas finanças</p>
+                </div>
+                
+                <form action="{{ url_for('login') }}" method="POST" class="auth-form" id="loginForm">
+                    <div class="form-group" data-icon="📧">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required placeholder="Digite seu email" autocomplete="email">
+                        <div class="error-message" id="emailError">Por favor, digite um email válido</div>
+                    </div>
+                    
+                    <div class="form-group" data-icon="🔒">
+                        <label for="senha">Senha</label>
+                        <input type="password" id="senha" name="senha" required placeholder="Digite sua senha" autocomplete="current-password">
+                        <div class="error-message" id="senhaError">A senha deve ter pelo menos 6 caracteres</div>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary" id="submitBtn" disabled>
+                        🚀 Entrar na Plataforma
+                    </button>
+                </form>
+                
+                <div class="auth-divider">
+                    <span>ou</span>
+                </div>
+                
+                <div class="auth-footer">
+                    <p>Ainda não tem uma conta? <a href="{{ url_for('register') }}">Crie sua conta gratuita</a></p>
+                    <p style="margin-top: 16px;">
+                        <a href="{{ url_for('home') }}" style="color: #6b7280; font-weight: 500;">
+                            ← Voltar para o início
+                        </a>
+                    </p>
+                </div>
+                
+                <div class="auth-benefits">
+                    <div class="auth-benefits-grid">
+                        <div class="benefit-item">Dados seguros</div>
+                        <div class="benefit-item">Acesso ilimitado</div>
+                        <div class="benefit-item">Suporte 24/7</div>
+                        <div class="benefit-item">100% gratuito</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Aguardar carregamento do DOM
+        document.addEventListener('DOMContentLoaded', function() {
+            // Elementos do formulário
+            const form = document.getElementById('loginForm');
+            const emailInput = document.getElementById('email');
+            const senhaInput = document.getElementById('senha');
+            const submitBtn = document.getElementById('submitBtn');
+            const emailError = document.getElementById('emailError');
+            const senhaError = document.getElementById('senhaError');
+
+            // Função de validação de email
+            function isValidEmail(email) {
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                return emailRegex.test(email);
+            }
+
+            // Função de validação do formulário
+            function validateForm() {
+                const email = emailInput.value.trim();
+                const senha = senhaInput.value;
+                
+                let isValid = true;
+
+                // Validar email
+                if (email === '') {
+                    emailInput.classList.remove('error');
+                    emailError.classList.remove('show');
+                } else if (!isValidEmail(email)) {
+                    emailInput.classList.add('error');
+                    emailError.classList.add('show');
+                    isValid = false;
+                } else {
+                    emailInput.classList.remove('error');
+                    emailError.classList.remove('show');
+                }
+
+                // Validar senha
+                if (senha === '') {
+                    senhaInput.classList.remove('error');
+                    senhaError.classList.remove('show');
+                } else if (senha.length < 6) {
+                    senhaInput.classList.add('error');
+                    senhaError.classList.add('show');
+                    isValid = false;
+                } else {
+                    senhaInput.classList.remove('error');
+                    senhaError.classList.remove('show');
+                }
+
+                // Habilitar/desabilitar botão
+                const formComplete = email !== '' && senha !== '' && isValid;
+                submitBtn.disabled = !formComplete;
+                
+                return isValid && formComplete;
+            }
+
+            // Event listeners para validação em tempo real
+            emailInput.addEventListener('input', validateForm);
+            emailInput.addEventListener('blur', validateForm);
+            senhaInput.addEventListener('input', validateForm);
+            senhaInput.addEventListener('blur', validateForm);
+
+            // Efeitos visuais nos inputs
+            [emailInput, senhaInput].forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.parentElement.style.transform = 'scale(1.02)';
+                });
+                
+                input.addEventListener('blur', function() {
+                    this.parentElement.style.transform = 'scale(1)';
+                });
+            });
+
+            // Submissão do formulário
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                if (!validateForm()) {
+                    return;
+                }
+
+                // Mostrar loading
+                submitBtn.classList.add('loading');
+                submitBtn.innerHTML = '<span class="spinner"></span>Entrando...';
+                submitBtn.disabled = true;
+
+                // Simular delay e submeter
+                setTimeout(() => {
+                    form.submit();
+                }, 500);
+            });
+
+            // Validação inicial
+            validateForm();
+
+            // Auto-focus no primeiro campo
+            emailInput.focus();
+        });
+    </script>
+</body>
+</html>

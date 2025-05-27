@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Relatórios - Projeta+</title>
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <style>
+    main.dashboard-main {
+      max-width: 1400px;
+      margin: 32px auto;
+      padding: 0 24px;
+    }
+    .section-title {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--primary);
+      margin-bottom: 32px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .charts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 40px;
+    }
+    .chart-card {
+      background: var(--bg-primary);
+      padding: 24px;
+      border-radius: 24px;
+      box-shadow: var(--shadow-lg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .chart-card canvas {
+      max-width: 100%;
+      height: 350px;
+    }
+  </style>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="dashboard">
+
+  <header class="dashboard-header">
+    <div class="header-content">
+      <div class="logo">
+        <img src="{{ url_for('static', filename='imagens/Projeta+_removebg_preview.png') }}" alt="Projeta+" class="logo-img" />
+      </div>
+
+      <div class="user-menu">
+        <a href="{{ url_for('dashboard') }}" class="btn-primary" style="text-decoration: none;">
+          ← Voltar ao Dashboard
+        </a>
+        <a href="{{ url_for('logout') }}" class="btn-primary danger" style="margin-left: 20px;">
+          SAIR
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="dashboard-main">
+    <h2 class="section-title">📊 Relatórios Financeiros</h2>
+
+    <div class="charts-grid">
+      <section class="chart-card">
+        <h3 style="margin-bottom: 16px; font-weight: 700; color: var(--primary);">Custos por Categoria</h3>
+        <canvas id="barChart"></canvas>
+      </section>
+
+      <section class="chart-card">
+        <h3 style="margin-bottom: 16px; font-weight: 700; color: var(--primary);">Distribuição por Categoria</h3>
+        <canvas id="pieChart"></canvas>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    const categorias = {{ categorias|tojson }};
+    const totais = {{ totais|tojson }};
+
+    const ctxBar = document.getElementById('barChart').getContext('2d');
+    const barChart = new Chart(ctxBar, {
+      type: 'bar',
+      data: {
+        labels: categorias,
+        datasets: [{
+          label: 'Custos',
+          data: totais,
+          backgroundColor: 'rgba(16, 185, 129, 0.8)',
+          borderRadius: 6,
+          barPercentage: 0.7,
+          categoryPercentage: 0.6,
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: context => `R$ ${context.parsed.y.toFixed(2)}`
+            }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              callback: value => `R$ ${value}`,
+              color: '#4B5563',
+              font: { weight: '600' }
+            },
+            grid: { color: 'rgba(107, 114, 128, 0.2)' }
+          },
+          x: {
+            ticks: { color: '#4B5563', font: { weight: '600' } },
+            grid: { display: false }
+          }
+        }
+      }
+    });
+
+    const ctxPie = document.getElementById('pieChart').getContext('2d');
+    const pieChart = new Chart(ctxPie, {
+      type: 'pie',
+      data: {
+        labels: categorias,
+        datasets: [{
+          data: totais,
+          backgroundColor: [
+            '#10b981', '#3b82f6', '#f59e0b', '#ef4444', '#6366f1',
+            '#14b8a6', '#f43f5e', '#a855f7', '#84cc16', '#ec4899'
+          ],
+          borderWidth: 1,
+          borderColor: '#fff',
+          hoverOffset: 30
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: { color: '#374151', font: { weight: '700' } }
+          },
+          tooltip: {
+            callbacks: {
+              label: context => {
+                const label = context.label || '';
+                const value = context.parsed || 0;
+                return `${label}: R$ ${value.toFixed(2)}`;
+              }
+            }
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>
